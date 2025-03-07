@@ -1,9 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Test Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemeBuzz MVX Test</title>
+    <script src="https://unpkg.com/@multiversx/sdk-core@13.17.2/out/index.js"></script>
+    <script src="https://unpkg.com/@multiversx/sdk-wallet@4.6.0/out/wallet.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 10px;
+            border: 1px solid #000;
+            background: #fff;
+            text-align: center;
+        }
+        button {
+            width: 100%;
+            margin: 5px 0;
+            padding: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #status {
+            font-size: 12px;
+            color: #555;
+            margin-top: 10px;
+        }
+        h1 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, World!</h1>
-</body>
-</html>
+    <h1>MemeBuzz MVX Test</h1>
+    <button onclick="connectXPortal()">Connect xPortal (EGLD)</button>
+    <button onclick="subscribe()">Subscribe ($2 / 0.07 EGLD)</button>
+    <div id="status">Ready to connect...</
