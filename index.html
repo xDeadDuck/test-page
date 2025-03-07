@@ -65,11 +65,11 @@
             }
 
             try {
-                console.log("Initializing provider...");
-                provider = new xPortal.WalletConnectProvider();
-                await provider.init();
+                // Use WalletProvider instead of WalletConnectProvider for newer SDKs
+                console.log("Initializing WalletProvider...");
+                provider = new xPortal.WalletProvider(); // Adjust based on SDK 4.6.0
                 console.log("Provider initialized, attempting login...");
-                await provider.login();
+                await provider.login(); // No init() needed for WalletProvider in some versions
                 account = await provider.getAddress();
                 log(`Connected: ${account.slice(0, 8)}...${account.slice(-8)}`);
             } catch (err) {
