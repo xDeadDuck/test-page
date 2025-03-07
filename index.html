@@ -49,14 +49,20 @@
             statusElement.innerText = message;
         }
 
-        // Debugging SDK loading
+        // Enhanced debugging
         console.log("SDK Core loaded:", typeof multiversxSdk !== 'undefined' ? 'Yes' : 'No');
-        console.log("Checking xPortal availability:", window.Maiar, window.xPortal, window.elrondWallet);
+        console.log("xPortal:", window.xPortal);
+        console.log("Maiar:", window.Maiar);
+        console.log("elrondWallet:", window.elrondWallet);
+        const xPortal = window.Maiar || window.xPortal || window.elrondWallet;
+        console.log("Selected xPortal object:", xPortal);
+        if (xPortal) {
+            console.log("xPortal properties:", Object.keys(xPortal));
+        }
 
         async function connectXPortal() {
             log("Connecting to xPortal...");
             const xPortal = window.Maiar || window.xPortal || window.elrondWallet;
-            console.log("xPortal detected:", !!xPortal);
             if (!xPortal) {
                 log("xPortal not detected!");
                 alert("xPortal not found. Install it, set to Testnet, and refresh.");
@@ -65,11 +71,11 @@
             }
 
             try {
-                // Use WalletProvider instead of WalletConnectProvider for newer SDKs
-                console.log("Initializing WalletProvider...");
-                provider = new xPortal.WalletProvider(); // Adjust based on SDK 4.6.0
-                console.log("Provider initialized, attempting login...");
-                await provider.login(); // No init() needed for WalletProvider in some versions
+                // Try a fallback provider approach
+                console.log("Attempting provider setup...");
+                provider = xPortal; // Use the raw xPortal object as provider
+                console.log("Provider set:", provider);
+                await provider.login();
                 account = await provider.getAddress();
                 log(`Connected: ${account.slice(0, 8)}...${account.slice(-8)}`);
             } catch (err) {
@@ -89,13 +95,13 @@
             log("Preparing subscription...");
             try {
                 const tx = {
-                    nonce: 0, // TODO: Fetch dynamically for production
+                    nonce: 0,
                     value: "70000000000000000", // 0.07 EGLD
                     receiver: "erd1f48rayfnkqn48yjkm2macdgl7gpveq2359jayuez6fm2rc2ppekqwx9r4z",
                     sender: account,
                     gasPrice: 1000000000,
                     gasLimit: 50000,
-                    chainID: "T" // Testnet
+                    chainID: "T"
                 };
 
                 console.log("Transaction data:", tx);
